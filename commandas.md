@@ -1,34 +1,53 @@
 after creating droplet,
 
+open gitbash and type
+ssh root@161.35.97.66, the enter your password
+
+you can then update packages as a root user
+apt-get update
+
 we add a user with this
 adduser nathphoenix
+then create password for the user immedately
 
 we give the new user admin privileges using
 usermod -aG sudo nathphoenix  (nathphoenix is the name of the user added)
 
-We create ssh key by loging out of thw server
+We create ssh key by loging out of the server
  ssh-keygen -t rsa -b 4096
 and then copy this path to create the file
 C:\Users\Maxwell/.ssh/id_rsa
+note you can change this "id_rsa" to your preferred name like "bloverse_gcp" or "nath_tb"
+then press enter twice so that you will not use password to login using the public key generated
 
 Next we send a public key to our cloud server
-ssh-copy-id nathphoenix@161.35.96.50 using gitbash only
+ssh-copy-id nathphoenix@161.35.97.66 using gitbash only
+
+Then launch your instance
+ssh nathphoenix@161.35.61.63
+
 
 to stop logging in with password
-sudo vim/etc/ssh/sshd_config
+sudo vim /etc/ssh/sshd_config
 we then change PasswordAuthentication to no, on line 56 of the open file
 press i to edit and esc to save. the :wq to save changes and enter
 
 Then restart server with
 sudo service ssh restart
+or this
+sudo shutdown -r now
 
-scp -i nath-gcp -r Tacotron-2 nathphoenix@161.35.96.50:~/Project
+
+as a defined user, you upgrade your packages using the root permission
+sudo apt upgrade
+
+scp -i nathan -r wavenet_vocoder nathphoenix@161.35.97.66:~/Project
 
 
 We can continue withis step below
 
 logging in to a remote server from window
-ssh otseobande@34.73.28.53 -i bloverse-gcp
+ssh nathphoenix@161.35.97.66 -i nathan
 
 We can setup virtualenv on vm :
 pip3 install virtualenv
