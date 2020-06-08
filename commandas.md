@@ -20,7 +20,7 @@ C:\Users\Maxwell/.ssh/id_rsa
 note you can change this "id_rsa" to your preferred name like "bloverse_gcp" or "nath_tb"
 then press enter twice so that you will not use password to login using the public key generated
 
-Next we send a public key to our cloud server
+Next we send a public key to our cloud server on that bash terminal
 ssh-copy-id nathphoenix@161.35.97.66 using gitbash only
 
 Then launch your instance
@@ -33,15 +33,14 @@ we then change PasswordAuthentication to no, on line 56 of the open file
 press i to edit and esc to save. the :wq to save changes and enter
 
 Then restart server with
-sudo service ssh restart
-or this
+
 sudo shutdown -r now
 
 
 as a defined user, you upgrade your packages using the root permission
 sudo apt upgrade
 
-scp -i nathan -r wavenet_vocoder nathphoenix@161.35.97.66:~/Project
+scp -i nathan -r Tacotron-2 nathphoenix@161.35.97.66:~/Project
 
 
 We can continue withis step below
@@ -51,7 +50,12 @@ ssh nathphoenix@161.35.97.66 -i nathan
 
 We can setup virtualenv on vm :
 pip3 install virtualenv
+sudo apt install python3-pip
 sudo apt install virtualenv
+virtualenv .speech
+virtualenv .speech --python=python3
+activate with
+source .speech/bin/activate
 https://dev.to/serhatteker/how-to-install-virtualenv-on-ubuntu-18-04-2jdi
 
 RUNNING YOUR CODE IN BACKGROUND OR TRAINING
@@ -59,6 +63,9 @@ https://medium.com/codebase/how-to-keep-multiple-linux-terminals-running-in-back
 
 how to transfer folder from local to remote server
 scp -i bloverse-gcp -r tacotron otseobande@34.73.28.53:~/Project
+
+how to transfer from remote to local
+scp -i nathan -r nathphoenix@161.35.97.66:~/Project/wavenet_vocoder .
 
 how to transfer a single file
 scp -i bloverse-gcp news.pdf otseobande@34.73.28.53:~/Project
