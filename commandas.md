@@ -48,6 +48,7 @@ We can continue withis step below
 logging in to a remote server from window
 ssh nathphoenix@161.35.97.66 -i nathan
 
+METHOD 1
 We can setup virtualenv on vm :
 pip3 install virtualenv
 sudo apt install python3-pip
@@ -57,6 +58,13 @@ virtualenv .speech --python=python3
 activate with
 source .speech/bin/activate
 https://dev.to/serhatteker/how-to-install-virtualenv-on-ubuntu-18-04-2jdi
+
+METHOD 2
+We can setup virtualenv on vm
+sudo apt-get install python-pip python3-dev libpq-dev
+sudo apt install virtualenv
+virtualenv flask --python=python3
+
 
 RUNNING YOUR CODE IN BACKGROUND OR TRAINING
 https://medium.com/codebase/how-to-keep-multiple-linux-terminals-running-in-background-screen-ccf2e53b0d22
