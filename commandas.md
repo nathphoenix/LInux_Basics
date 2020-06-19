@@ -72,11 +72,14 @@ https://medium.com/codebase/how-to-keep-multiple-linux-terminals-running-in-back
 how to transfer folder from local to remote server
 scp -i bloverse-gcp -r tacotron otseobande@34.73.28.53:~/Project
 
-how to transfer from remote to local
+how to download folder from remote to local
 scp -i nathan -r nathphoenix@161.35.97.66:~/Project/wavenet_vocoder .
 
-how to transfer a single file
+how to transfer a single file from local to remote
 scp -i bloverse-gcp news.pdf otseobande@34.73.28.53:~/Project
+
+how to download a single file from remote to local
+scp -i nathan nathphoenix@157.245.84.132:~/Project/tacotron_model.ckpt-22500.meta .
 
 how to extact tar.gz file
 tar -xvzf ukulele_songs.tar.gz -C ~/Documents/Songs/

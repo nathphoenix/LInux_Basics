@@ -9,12 +9,14 @@ how to copy a file, test is the file you want to copy, testcopy is the new name,
 cp test testcopy
 
 if you wnt to copy into another folder
-cp test /home/nathphoenix/destination_folder
+cp tacotron_model.ckpt-22500.data-00000-of-00001 /home/nathphoenix/Project
 
 HOW TO COPY ALL FILES FROM ONE DIRECTORY TO ANOTHER
 cp -r /items-rest/code/* .  (.) is to current directory
 
+HOW TO COPY A FILE TO ANOTHER DIRECTORY
 cp -r /items-rest/code/ /home/nathphoenix/Project   to another directory
+cp -r /items-rest/code/ /home/nathphoenix/Project
 
 to delete text in vi text editor
 D + shift +G
