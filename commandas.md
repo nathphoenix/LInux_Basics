@@ -74,6 +74,7 @@ scp -i bloverse-gcp -r tacotron otseobande@34.73.28.53:~/Project
 
 how to download folder from remote to local
 scp -i nathan -r nathphoenix@161.35.97.66:~/Project/wavenet_vocoder .
+scp -i nathan -r nathphoenix@157.245.84.132:~/Project/check .
 
 how to transfer a single file from local to remote
 scp -i bloverse-gcp news.pdf otseobande@34.73.28.53:~/Project
