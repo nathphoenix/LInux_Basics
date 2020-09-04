@@ -38,8 +38,9 @@ we give the new user admin privileges using
 usermod -aG sudo nathphoenix  (nathphoenix is the name of the user added)
 
 We create ssh key by loging out of the server
- ssh-keygen -t rsa -b 4096
+ssh-keygen -t rsa -b 4096
 and then copy this path to create the file
+
 C:\Users\Maxwell/.ssh/id_rsa
 note you can change this "id_rsa" to your preferred name like "bloverse_gcp" or "nath_tb"
 then press enter twice so that you will not use password to login using the public key generated
@@ -99,7 +100,6 @@ as a defined user, you upgrade your packages using the root permission
 sudo apt upgrade
 
 WE THEN INSTALL
-sudo apt-get update
 sudo apt-get install nginx
 
 To prevent firewall issues
@@ -132,36 +132,35 @@ then we add api config to nginx config to make sure it can access our api
 https://phoenixnap.com/kb/install-nginx-on-ubuntu
 sudo vi /etc/nginx/sites-available/default  (This opens the default config file)
 
-sudo vi /etc/nginx/sites-available/items-rest.conf  (This later work)
+sudo vi /etc/nginx/sites-available/image-rest.conf  (This later work)
 
 open the "nginx_api.config" in this tutorial folder and paste the code into the open file on the instance
 
 we then enable the config file with the command below, what this will do is that it will link the config file to the site enabled folder where nginx read the config property
-sudo ln -s /etc/nginx/sites-available/items-rest.conf /etc/nginx/sites-enabled/
+sudo ln /etc/nginx/sites-available/image-rest.conf /etc/nginx/sites-enabled/
 
 we create our socket connections
 First we create the folder where our config file lives
-sudo mkdir /var/www/html/items-rest
+sudo mkdir /var/www/html/image-rest
 
 A user of this instance will not have access to the folder because we use  sudo command to create the folder, to enable the user have access to the folder or change owner access of the folder
 
-sudo chown -v -R nathphoenix:nathphoenix /var/www/html/items-rest
-sudo chown nathphoenix:nathphoenix /var/www/html/items-rest
+sudo chown -v -R nathphoenix:nathphoenix /var/www/html/image-rest
+sudo chown nathphoenix:nathphoenix /var/www/html/image-rest
+then cd /
 
 HOW TO COPY ALL FILES FROM ONE DIRECTORY TO ANOTHER
- cp -r /items-rest/code/* .
+cp -r /image-rest/code/* .
+This currently works from the path
+(flask) nathphoenix@Medium:~/Project/image_scraper$ cp -r . /var/www/html/image-rest
+image_scraper is where my code was uploaded to by default
 
-Then we cd into the directory 
+Then we cd into the directory
 cd /var/www/html/items-rest
 we create our log file to monitor any issue
 mkdir log
 
 after that u can then clone your project into that direct either with git or anyother methods that you know
-
-This two works fine
-sudo apt install python3-virtualenv
-virtualenv speech --python=python3
-
 
 METHOD 2
 We can setup virtualenv on vm
@@ -173,17 +172,17 @@ SETTING UP USWGI TO RUN REST API
 We will start with changing the uswgi.ini file, but first we will create a ubuntu service, aservice is what we can tell ubuntu to run, when the computer start and when the server start and you can tell it to restart it and crash.
 Essentially a service is the descriptor of a programme and u can tell
 
-sudo vi /etc/systemd/system/uwsgi_items_rest.service
-after this we continue with the file called uwsgi.md and copy the codev
+sudo vi /etc/systemd/system/uwsgi_image_rest.service
+after this we continue with the file called uwsgi.md and copy the code
 
-Then we  edit the uwsgi.ini file in the project folder, check the uwsgi.ini here 
-
-WE CAN START OUR FLASK APP NOW
-
-sudo systemctl start uwsgi_items_rest
+Then we  edit the uwsgi.ini file in the project folder, check the uwsgi.ini here
 
 TO CHECK THE LOG FILE
 vi log/uwsgi.log
+
+WE CAN START OUR FLASK APP NOW
+
+sudo systemctl start uwsgi_image_rest
 
 TESTING OUR API
 First we have to make sure we remove the default nginx config file
@@ -195,9 +194,10 @@ sudo systemctl restart nginx
 
 Next
 uwsgi will load our flask app with this command
-sudo systemctl start uwsgi_items_rest
+sudo systemctl start uwsgi_image_rest
 
 Then we go to our postman and make request and get request to test
+
 
 
 
@@ -229,9 +229,6 @@ virtualenv .speech
 virtualenv .speech --python=python3
 activate with
 source .speech/bin/activate
-
-if after installing virtualenv, you couldn't create virtualenv, then do pip3 uninstall virtualenv twice, then virtualenv speech --python=python3
-
 https://dev.to/serhatteker/how-to-install-virtualenv-on-ubuntu-18-04-2jdi
 
 RUNNING YOUR CODE IN BACKGROUND OR TRAINING

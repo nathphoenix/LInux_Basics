@@ -1,0 +1,37 @@
+sudo chown medium content2.txt
+ls -l  to view permission
+chmod -R 777 .   change the model of the current folder to read and write
+chmod -R 777 ./medium
+sudo chown medium:medium /home/medium changing complete ownership
+sudo chown medium:medium .
+sudo chown medium /home/medium, this will be own by medium user and root
+
+
+
+
+
+
+sudo apt-get update
+sudo apt-get install nginx
+sudo ufw enable
+sudo ufw allow ssh
+systemctl start nginx
+sudo systemctl start nginx
+sudo systemctl status nginx
+sudo nano /etc/nginx/sites-available/medium.conf
+sudo nginx -t
+sudo ln -s /etc/nginx/sites-available/medium.conf /etc/nginx/sites-enabled/
+sudo nginx -t
+
+sudo mkdir /home/medium
+sudo chown medium:medium /home/medium
+mkdir log
+sudo nano uwsgi.ini
+mkdir backup
+sudo apt-get install python-pip python3-dev libpq-dev
+sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
+pip install virtualenv
+virtualenv venv --python=python3.6
+
+
+

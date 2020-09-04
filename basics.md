@@ -13,6 +13,8 @@ cp tacotron_model.ckpt-22500.data-00000-of-00001 /home/nathphoenix/Project
 
 HOW TO COPY ALL FILES FROM ONE DIRECTORY TO ANOTHER
 cp -r /items-rest/code/* .  (.) is to current directory
+cp -r . /var/www/html/image-rest
+cp -r ~/data/data/* .
 
 HOW TO COPY A FILE TO ANOTHER DIRECTORY
 cp -r /items-rest/code/ /home/nathphoenix/Project   to another directory

@@ -1,4 +1,7 @@
-after creating server, before you create a user, we install the package we need as an admin
+D#vlOpm1#nt
+DemzanAlytic1s
+
+ after creating server, before you create a user, we install the package we need as an admin
 apt-get install postgresql
 apt-get install postgresql-contrib or apt-get install postgresql postgresql-contrib
 
@@ -99,7 +102,6 @@ as a defined user, you upgrade your packages using the root permission
 sudo apt upgrade
 
 WE THEN INSTALL
-sudo apt-get update
 sudo apt-get install nginx
 
 To prevent firewall issues
@@ -120,7 +122,7 @@ sudo ufw allow ssh
 
 Then we check if Nginx is running with the system controller
 systemctl status nginx,     we will be using this alot
- we can use systemctl to stop and start nginx
+we can use systemctl to stop and start nginx
 systemctl stop nginx
 systemctl start nginx
 systemctl restart nginx
@@ -137,7 +139,9 @@ sudo vi /etc/nginx/sites-available/items-rest.conf  (This later work)
 open the "nginx_api.config" in this tutorial folder and paste the code into the open file on the instance
 
 we then enable the config file with the command below, what this will do is that it will link the config file to the site enabled folder where nginx read the config property
-sudo ln -s /etc/nginx/sites-available/items-rest.conf /etc/nginx/sites-enabled/
+sudo ln s /etc/nginx/sites-available/items-rest.conf /etc/nginx/sites-enabled/
+
+
 
 we create our socket connections
 First we create the folder where our config file lives
@@ -151,16 +155,15 @@ sudo chown nathphoenix:nathphoenix /var/www/html/items-rest
 HOW TO COPY ALL FILES FROM ONE DIRECTORY TO ANOTHER
  cp -r /items-rest/code/* .
 
+
 Then we cd into the directory 
 cd /var/www/html/items-rest
 we create our log file to monitor any issue
 mkdir log
 
+
 after that u can then clone your project into that direct either with git or anyother methods that you know
 
-This two works fine
-sudo apt install python3-virtualenv
-virtualenv speech --python=python3
 
 
 METHOD 2
@@ -180,7 +183,7 @@ Then we  edit the uwsgi.ini file in the project folder, check the uwsgi.ini here
 
 WE CAN START OUR FLASK APP NOW
 
-sudo systemctl start uwsgi_items_rest
+sudo systemctl start uwsgi_images_rest
 
 TO CHECK THE LOG FILE
 vi log/uwsgi.log
@@ -221,6 +224,11 @@ We can continue withis step below
 logging in to a remote server from window
 ssh nathphoenix@161.35.97.66 -i nathan
 
+This two works fine
+sudo apt install python3-virtualenv
+virtualenv speech --python=python3
+
+
 We can setup virtualenv on vm :
 pip3 install virtualenv
 sudo apt install python3-pip
@@ -230,7 +238,8 @@ virtualenv .speech --python=python3
 activate with
 source .speech/bin/activate
 
-if after installing virtualenv, you couldn't create virtualenv, then do pip3 uninstall virtualenv twice, then virtualenv speech --python=python3
+if after installing virtualenv, you couldn't create virtualenv, then do pip3 uninstall virtualenv twice, then do
+virtualenv speech --python=python3
 
 https://dev.to/serhatteker/how-to-install-virtualenv-on-ubuntu-18-04-2jdi
 

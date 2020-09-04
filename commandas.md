@@ -14,17 +14,27 @@ we give the new user admin privileges using
 usermod -aG sudo nathphoenix  (nathphoenix is the name of the user added)
 
 We create ssh key by loging out of the server
- ssh-keygen -t rsa -b 4096
+ssh-keygen -t rsa -b 4096
 and then copy this path to create the file
-C:\Users\Maxwell/.ssh/id_rsa
+C:\Users\nathk/.ssh/id_rsa
 note you can change this "id_rsa" to your preferred name like "bloverse_gcp" or "nath_tb"
 then press enter twice so that you will not use password to login using the public key generated
 
-Next we send a public key to our cloud server on that bash terminal
-ssh-copy-id nathphoenix@161.35.97.66 using gitbash only
+
+
+Next we send a public key to our cloud server on that bash terminal:
+
+ssh-copy-id nathphoenix@161.35.97.66 using gitbash only (This doesn't seem to work again)
+OR
+cd into .ssh, then
+ssh-copy-id -i nath_tb nathphoenix@167.172.141.50
+ 
+
+
 
 Then launch your instance
 ssh nathphoenix@161.35.61.63
+ssh nathphoenix@161.35.48.64 -i nathan
 
 
 to stop logging in with password
@@ -40,7 +50,7 @@ sudo shutdown -r now
 as a defined user, you upgrade your packages using the root permission
 sudo apt upgrade
 
-scp -i nathan -r Tacotron-2 nathphoenix@161.35.97.66:~/Project
+scp -i nathan -r image_scraper nathphoenix@167.172.141.50:~/Project
 
 
 We can continue withis step below
@@ -49,15 +59,26 @@ logging in to a remote server from window
 ssh nathphoenix@161.35.97.66 -i nathan
 
 METHOD 1
+This two works fine
+sudo apt install python3-virtualenv
+virtualenv speech --python=python3
+
+
+
 We can setup virtualenv on vm :
+sudo apt install python3-pip
 pip3 install virtualenv
 sudo apt install python3-pip
 sudo apt install virtualenv
-virtualenv .speech
-virtualenv .speech --python=python3
+
 activate with
 source .speech/bin/activate
 https://dev.to/serhatteker/how-to-install-virtualenv-on-ubuntu-18-04-2jdi
+
+if after this step, you have virtualenv error, 
+do, pip uninstall virtualenv twice and try:  virtualenv flask --python=python3
+
+or reinstall virtualenv
 
 METHOD 2
 We can setup virtualenv on vm
