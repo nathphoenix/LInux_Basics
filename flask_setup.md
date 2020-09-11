@@ -181,6 +181,10 @@ Then we  edit the uwsgi.ini file in the project folder, check the uwsgi.ini here
 WE CAN START OUR FLASK APP NOW
 
 sudo systemctl start uwsgi_items_rest
+sudo systemctl restart uwsgi_items_rest.service
+
+WE CHECK THE STATUS OF OUR SERVICE INCASE OF ANY ERROR
+sudo systemctl status uwsgi_items_rest.service
 
 TO CHECK THE LOG FILE
 vi log/uwsgi.log

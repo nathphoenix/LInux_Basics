@@ -183,6 +183,8 @@ vi log/uwsgi.log
 WE CAN START OUR FLASK APP NOW
 
 sudo systemctl start uwsgi_image_rest
+sudo systemctl restart uwsgi_items_rest.service
+
 
 TESTING OUR API
 First we have to make sure we remove the default nginx config file

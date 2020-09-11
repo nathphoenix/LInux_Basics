@@ -25,6 +25,7 @@ sudo nginx -t
 
 sudo mkdir /home/medium
 sudo chown medium:medium /home/medium
+cd /home/medium
 mkdir log
 sudo nano uwsgi.ini
 mkdir backup

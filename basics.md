@@ -22,3 +22,7 @@ cp -r /items-rest/code/ /home/nathphoenix/Project
 
 to delete text in vi text editor
 D + shift +G
+
+HOW TO CLEAR LOG FILES IN SERVER
+you cd into the directory where you have your log file, in this case we have uwsgi.log
+   > uwsgi.log
