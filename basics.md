@@ -26,3 +26,8 @@ D + shift +G
 HOW TO CLEAR LOG FILES IN SERVER
 you cd into the directory where you have your log file, in this case we have uwsgi.log
    > uwsgi.log
+
+DELETE ALL FILES WITH A PARTICULAR EXTENSION
+
+find . -type f -iname \*.jpg -delete
+find . -type f -iname \*.txt -delete

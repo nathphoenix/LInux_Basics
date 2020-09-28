@@ -93,7 +93,7 @@ press i to edit and esc to save. the :wq to save changes and enter
 Then restart server with
 
 sudo shutdown -r now
-
+ 
 
 as a defined user, you upgrade your packages using the root permission
 sudo apt upgrade
@@ -141,18 +141,29 @@ sudo ln -s /etc/nginx/sites-available/items-rest.conf /etc/nginx/sites-enabled/
 
 we create our socket connections
 First we create the folder where our config file lives
+
+do pwd, change the ownershipof the directory as below
+sudo chown nathphoenix:nathphoenix /home/nathphoenix
+
+OLD METHOD
+
 sudo mkdir /var/www/html/items-rest
+
+
 
 A user of this instance will not have access to the folder because we use  sudo command to create the folder, to enable the user have access to the folder or change owner access of the folder
 
 sudo chown -v -R nathphoenix:nathphoenix /var/www/html/items-rest
-sudo chown nathphoenix:nathphoenix /var/www/html/items-rest
+sudo chown nathphoenix:nathphoenix /var/www/html/items-rest, not using this again
+sudo chown nathphoenix:nathphoenix /home/nathphoenix
+
+OLD METHOD STOP HERE
 
 HOW TO COPY ALL FILES FROM ONE DIRECTORY TO ANOTHER
  cp -r /items-rest/code/* .
 
 Then we cd into the directory 
-cd /var/www/html/items-rest
+cd /home/nathphoenix, but not necessary as that is my default direcory
 we create our log file to monitor any issue
 mkdir log
 
@@ -160,7 +171,7 @@ after that u can then clone your project into that direct either with git or any
 
 This two works fine
 sudo apt install python3-virtualenv
-virtualenv speech --python=python3
+virtualenv venv --python=python3
 
 
 METHOD 2
@@ -173,7 +184,7 @@ SETTING UP USWGI TO RUN REST API
 We will start with changing the uswgi.ini file, but first we will create a ubuntu service, aservice is what we can tell ubuntu to run, when the computer start and when the server start and you can tell it to restart it and crash.
 Essentially a service is the descriptor of a programme and u can tell
 
-sudo vi /etc/systemd/system/uwsgi_items_rest.service
+sudo vi /etc/systemd/system/uwsgi_image_rest.service
 after this we continue with the file called uwsgi.md and copy the codev
 
 Then we  edit the uwsgi.ini file in the project folder, check the uwsgi.ini here 

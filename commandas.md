@@ -16,7 +16,7 @@ usermod -aG sudo nathphoenix  (nathphoenix is the name of the user added)
 We create ssh key by loging out of the server
 ssh-keygen -t rsa -b 4096
 and then copy this path to create the file
-C:\Users\nathk/.ssh/id_rsa
+C:\Users\maxwell/.ssh/id_rsa
 note you can change this "id_rsa" to your preferred name like "bloverse_gcp" or "nath_tb"
 then press enter twice so that you will not use password to login using the public key generated
 
@@ -27,7 +27,7 @@ Next we send a public key to our cloud server on that bash terminal:
 ssh-copy-id nathphoenix@161.35.97.66 using gitbash only (This doesn't seem to work again)
 OR
 cd into .ssh, then
-ssh-copy-id -i nath_tb nathphoenix@167.172.141.50
+ssh-copy-id -i nath_tb nathphoenix@157.245.243.176
  
 
 
@@ -61,7 +61,7 @@ ssh nathphoenix@161.35.97.66 -i nathan
 METHOD 1
 This two works fine
 sudo apt install python3-virtualenv
-virtualenv speech --python=python3
+virtualenv venv --python=python3
 
 
 
@@ -91,7 +91,7 @@ RUNNING YOUR CODE IN BACKGROUND OR TRAINING
 https://medium.com/codebase/how-to-keep-multiple-linux-terminals-running-in-background-screen-ccf2e53b0d22
 
 how to transfer folder from local to remote server
-scp -i bloverse-gcp -r tacotron otseobande@34.73.28.53:~/Project
+scp -i nath_tb -r rss_scraper nathphoenix@157.245.243.176:~/Project
 
 how to download folder from remote to local
 scp -i nathan -r nathphoenix@161.35.97.66:~/Project/wavenet_vocoder .
@@ -99,6 +99,7 @@ scp -i nathan -r nathphoenix@157.245.84.132:~/Project/check .
 
 how to transfer a single file from local to remote
 scp -i bloverse-gcp news.pdf otseobande@34.73.28.53:~/Project
+scp -i nath_tb -r phoenix.json nathphoenix@157.245.243.176:~/Project
 
 how to download a single file from remote to local
 scp -i nathan nathphoenix@157.245.84.132:~/Project/tacotron_model.ckpt-22500.meta .

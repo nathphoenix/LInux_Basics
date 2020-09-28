@@ -16,7 +16,7 @@ usermod -aG sudo nathphoenix  (nathphoenix is the name of the user added)
 We create ssh key by loging out of the server
 ssh-keygen -t rsa -b 4096
 and then copy this path to create the file
-C:\Users\nathk/.ssh/id_rsa
+C:\Users\Nathaniel/.ssh/id_rsa
 note you can change this "id_rsa" to your preferred name like "bloverse_gcp" or "nath_tb"
 then press enter twice so that you will not use password to login using the public key generated
 
@@ -34,7 +34,7 @@ ssh-copy-id -i nath_tb nathphoenix@167.172.141.50
 
 Then launch your instance
 ssh nathphoenix@161.35.61.63
-ssh nathphoenix@161.35.48.64 -i nathan
+ssh nathphoenix@157.245.243.176 -i nathan
 
 
 sudo apt-get update
