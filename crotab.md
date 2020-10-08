@@ -9,6 +9,8 @@ source /home/nathphoenix/Project/venv/bin/activate
 python /home/nathphoenix/Project/rss.py >> /home/nathphoenix/Project/cron.log 2>&1
 
 
+https://stackoverflow.com/questions/55860101/how-do-i-run-a-cronjob-with-a-python-virtual-environment
+
 Method 2
 
 1. Lunch crontab .e
@@ -16,10 +18,19 @@ Method 2
 
 
 To handle permission issue
-chmod u+x /home/nathphoenix/Project/venv/bin/activate
+chmod u+x /home/nathphoenix/Project/report.log
+
 
 
 Final working method:
 It runs every 1 minutes
 */1 * * * * /home/nathphoenix/Project/venv/bin/activate && python /home/nathphoenix/Project/test.py >> /home/nathphoenix/Project/cron.log 2>&1
 
+Full step
+
+after creating your droplet
+
+sudo apt upgrade
+
+To change to python3 version
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
