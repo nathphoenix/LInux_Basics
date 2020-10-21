@@ -1,0 +1,10 @@
+after downloading chrome driver
+
+make the file an executable file for the system by 
+chmod +x chromedriver
+
+then copy the file to this path
+then cp chromedriver /usr/local/bin/
+
+and then change the path of your chrome drive in your code
+executable_path="/usr/local/bin/chromedriver"
