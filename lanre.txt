@@ -1,0 +1,625 @@
+Droplets are the server that you own
+How to create droplets:
+    --select create
+    --click on droplets
+    --choose Ubuntu 16.04 or > 16.xxxx
+    --choose the cheapest plan
+    --ignore "Add block storage"
+    --choose the data center closer to your region
+    --selecting "private networking" under "select additional options" allows two of our droplets to connect to each other without 
+        going through the internet
+        backups: allows ur droplets to keep backups
+    --create a droplets
+    --after having created, you will get a mail containing the password of the account
+    --or select the dropdown on the created Droplets and choose "access console"
+        login == root
+        password=sent to the email
+    --with these crddentials we are able to successfully change the droplets password
+    --This is running ubuntu which is a Mac server
+    -- Connect to the Droplet with OpenSSH
+        https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/openssh/
+    --or connect to the server using the commands below inside our git bash
+        ssh root@droplets_IP_address
+        root@IP_ADDRESS's password: emailed password
+        (current) UNIX password: emailed password
+        Enter new UNIX password: new password
+        Retype new UNIX password: new password again
+    --Commands and functions
+        apt-get update                  # tells ubuntu package manager(apt) to find available updates for server installed packages
+        apt-get install postgresql postgresql-contrib     # installs postgresql and postgresql-contrib
+            --we will be prompted with [Y/n] either press Enter to select default Y or type Y and press Enter
+            --installing postgresql automatically creates another user on our server named "postgres" that we can switch to, other than root user
+        sudo -i -u postgres         # swaps us from root user to postgres user and log us in as postgres user
+        psql                        # connect us to the postgresql database
+                                    # learn more psql comands: https://www.tutorialspoint.com/postgresql/postgresql_select_database.htm
+        \conninfo                   # tells us some connection info to the database
+        \l                          # to list all databases in postgres user query tool
+        \q                          # exit us from postgresql database query interface and not from postgres user
+        \exit                       # log us out from the current user(postgres) and return us to root user
+        
+    --Creating another user to give a non super user login options
+        adduser ayo                 # creates a user by name ayo
+    --making the user ayo gain temporary access to being root, in order to be able to install packages e.t.c 
+        visudo
+            --navigate to "user priviledge specification"
+            --Enter "ayo ALL=(ALL: ALL) ALL" under "root ALL=(ALL: ALL) ALL"
+            --press "Cntr O" to save on top of the existing file
+            --press Enter button
+            --press "Cntr X" to exit
+    --setting user ayo to be able to login directly just the same as root user
+        vi /etc/ssh/sshd_config
+            --navigate to  Authentication:
+            --set "PermitRootLogin No" by pressing the "i" key to take us to insert mode while we set the default yes to no 
+                --this is done to not allow other user compromise our server by being able to login
+            --press escape key to leave the insert mode
+            --navigate to  "PasswordAuthentication yes"
+                pressing the "i" key to take us to insert mode
+            --below "PasswordAuthentication yes" put "AllowUsers ayo"
+                This tells ssh which is connection protocol to allow user ayo to connect to the server because we denied root user login 
+                access for security reasons
+            --press ESC key to leave the insert mode
+            --press ":wq" to save the file, write to the disk and quit
+            --"service sshd reload"         this reloads the service and allows us to use the save configuration
+            --enter "exit" to disconnect from the server and let us login with user ayo 
+            --enter "ssh ayo@droplets_IP_address" == "ssh ayo@157.245.131.154"
+            --enter a very strong password for user ayo
+                since this user has access to login as root, use the command below
+            --sudo su
+                then enter password again, and this log us in as root user after which we can update packages with "apt-get update" if we like
+            --exit
+                takes us back to user ayo
+            --logout
+                close the connection to our computer
+                
+    --Linking user ayo to have access to postgresql database
+        --ssh ayo@157.245.131.154
+            --enter password
+        --sudo su
+            --enables us to login as the root user
+        --sudo -i -u postgres
+        --createuser ayo -P 
+            allows us to create postgresql user, use the same same name as the unix user(ayo) that we have created, -P allows us to set 
+            a password for the user
+        --createdb allyshop
+            creating a database for this user
+        --exit
+            exit us from the postgres user
+        --exit
+            to take us out of the root user
+        --psql
+            the user by default connect to the same database as the user
+        --\conninfo
+            to check the database user connection info
+        --\q
+            to leave the postgres termina  
+        --dropdb
+            can delete the database but you must be on postgres user to do that
+    --setting up postgresql to ask us for password anytime a unix user wants to connect to it's database
+        This is also done to make sqlalchemy work for us by putting security in our server
+        --sudo nano /etc/postgresql/9.5/main/pg_hba.conf 
+            this runs the command(postgresql user login security configuration file) after sudo as root
+        --scroll down 
+            --local   all             postgres                                peer
+                means we can connect to any database as postgre user
+            --local   all             all                                     peer
+                means if we are running locally for any user, we can access any database
+            --host    all             all             127.0.0.1/32            md5
+                means if we are connecting from another machine through the internet on this IP==127.0.0.1,as any user, password will 
+                be required to connect to the database
+        --change "peer" to "md5" inside "local   all             all                                     peer" after
+            pressing the "i" key to take us to insert mode
+        --Allowing IP address access to the server by adding the line below
+            --host    all             all             159.65.90.118/32            md5
+        --ESC
+        --:wq
+ 
+    --Configuring postgresql database
+        --update-rc.d postgresql enable
+            --this enables postgresql to start automatically
+        --sudo service postgresql start
+        --sudo service postgresql status
+
+    --configuring postgresql to listen on all addresses other than the localhost
+        --sudo nano /etc/postgresql/10/main/postgresql.conf
+            under COONNECTIONS AND AUTHENTICATION, SET
+                --listen_addresses = "*"
+        --sudo service postgresql restart
+
+
+    --setting up nginx and our rest API
+        installing nginx and running our app, nginx will act as a gateway between our app and external users,nginx is called the reverse proxy
+        nginx will communicate with uwsgi to enable a multithreaded operation of our flask app
+        nginx can allow us run multiple flask app simultaneously in our server while redirecting incoming request to different apps 
+        depending on some parameters
+        --ssh ayo@157.245.131.154               # login to the server
+        --sudo apt-get update
+        --sudo apt-get install nginx
+        --sudo ufw status                       # ufw == ubuntu firewall
+            letting nginx have access through our firewall so that the incoming request don't get blocked
+        --sudo ufw enable
+        --sudo ufw allow 'Nginx HTTP'
+            giving nginx access by putting Nginx in the firewall
+        --sudo ufw status
+            reveals the new status 
+        --sudo ufw allow ssh
+            prevents us from being locked out of the server
+        --systemctl status nginx
+            checks if nqinx is running
+        --systemctl stop nginx
+            stops nqinx if it is running
+        --sudo systemctl start nginx
+            starts nqinx if it is not running
+        --sudo systemctl restart nginx
+            restarts nqinx if it is running
+
+        --sudo vi /etc/nginx/sites-available/allyshop.conf
+            going inside the nginx config to add our REST API to the nginx config and also adding some configurations parameters to nginx
+            to make sure it can access our API
+            This commands creates a brand new file named config
+            explaining the config contents below:
+                server: is essentially our flask app, and this server listens to an incoming request then dispatch them where appropriate
+                    listens on port 80 which is the default http port
+                real_ip_header: forwards the ip address of the requester over to our flask app, meaning when someone makes a request to
+                    our server, nginx tells our flask app who makes that request
+                set_real_ip_from: tells the flask app which is running on 127.0.0.1 that the request is coming from 127.0.0.1
+                location: whenever someone accesses the root location of the server, redirect them somewhere i.e to our flaskapp
+                    include_uwsgi_params: 
+                        don't forget that we are running the app using uwsgi as this is a program that allows our
+                        flask app to run multithreaded more efficiently and to restart threads as they fail if they do.
+                        so, include_uwsgi_params helps communication with uwsgi program
+                    uwsgi_pass unix:/var/www/html/allyshop/socket.sock:
+                        "unix:/var/www/html/allyshop/socket.sock" passes to these file "uwsgi_pas" the necessary parameters. and it is 
+                        the connection point for our flask app and nginx
+                    uwsgi_modifier1:
+                        this is uwsgi parameter that tells the thresd when to die if they become blocked
+                error_page 404 / 404.html:
+                    This page is loaded when error 404 occured
+                location = /404.html:
+                    root/usr/share/nginx/html:
+                        This will serve 404.html page from this folder(root/usr/share/nginx/html)
+                # Do a research to understand how uwsgi protoclos works, to understand all the jargons above. and how this application
+                # connects to a receiving server like Apache or nginx
+        --press letter "i" to go into the insert mode
+            this enables to start writing our nginx config
+        --config cotents
+        
+        server {
+            listen 80;
+            real_ip_header X-Forwarded-For;
+            set_real_ip_from 127.0.0.1;
+            server_name localhost;
+            location / {
+                include uwsgi_params;
+                uwsgi_pass unix:/var/www/html/allyshop/socket.sock;
+                uwsgi_modifier1 30;
+            }
+            error_page 404 /404.html;
+            location = /404.html {
+                root /usr/share/nginx/html;
+            }
+
+            error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+                root /usr/share/nginx/html;
+            }
+
+        }
+            
+        --sudo nginx -t
+        --ESC
+        --:wq
+        --sudo ln -s /etc/nginx/sites-available/allyshop.conf /etc/nginx/sites-enabled/
+            Enable the config file by Creating a link between the config file we just created and the site-enables folder where nginx
+            reads the config properties since it now knows our config file and it will try to access that socket file
+
+        --sudo mkdir /var/www/html/allyshop
+            this is our application directory
+            note that user allyshop will not have access to this directory, only root user does 
+        --sudo chown allyshop:allyshop /var/www/html/allyshop
+            changing owner to allyshop directory to allyshop user, allyshop group 
+        --cd /var/www/html/allyshop
+            going into the directory
+
+        --git config --global user.name "Ayodeji Ajayi"
+        --git config --global user.email "ayodeji.ajayi@demzanalytics.com"
+        --git remote rename origin old-origin
+        --git remote add origin https://gitlab.com/ayodeji.ajayi/covi.git
+        --git push -u origin --all
+        --git push -u origin --tags
+
+        --git clone --single-branch --branch production https://rhotimie@bitbucket.org/rhotimie/allyshop.git .
+            cloning the project from roduction branch into the app folder
+            --if you are cloning from master branch
+                git clone https://rhotimie@bitbucket.org/rhotimie/allyshop.git .
+        --mkdir log
+            this is used to produce logs for our app
+            no longer using "sudo" anymore because user allyshop owns the directory
+        --ls            # list all the files in a directory
+        --sudo apt-get install python-pip python3-dev libpq-dev
+        --sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
+            python-pip: python package manager is used to install python packages
+            python3-dev: set of tools that python needs to compile fromsource, used to install uwsgi and psycopg2
+            libpq-dev: allows us to run psycopg2
+        --pip3 install virtualenv
+        --virtualenv venv --python=python3.6
+        --source venv/bin/activate
+        --& c:/Users/DELL/Desktop/hashtags/venv/Scripts/Activate.ps1
+        --pip install -r requirements.txt
+
+    --Setting up uwsgi so that our application can communicate with uwsgi and nginx can communicate with uwsgi to make a complete chain 
+        service(a describter of a program) is what you tell ubuntu to run when the computer/server starts and can also be set to run
+        or restart using a system controller, it is use to set environment varaiables before it runs
+        This service runs uWSGI and uWSGI runs our flask app
+
+        --sudo vi /etc/systemd/system/uwsgi_allyshop_rest.service
+            this command above is creating a text file
+            --uwsgi_allyshop_rest.service cotents
+                [Unit]  
+                Description=uWSGI allyshop rest
+
+                [Service] 
+                Environment=DATABASE_URL=postgres://allyshop:Abraham1990#@localhost:5432/allyshop
+                ExecStart=/var/www/html/allyshop/venv/bin/uwsgi --master --emperor /var/www/html/allyshop/uwsgi.ini --die-on-term --uid allyshop --gid allyshop --logto /var/www/html/allyshop/log/emperor.log
+                Restart=always
+                KillSignal=SIGQUIT
+                Type=notify
+                NotifyAccess=all
+
+                [Install] 
+                WantedBy=multi-user.target
+        --ESC
+        --:wq
+        --vi uwsgi.ini
+            Delete everything inside this file using "D + Shift + G" key
+            uwsgi.ini contains 
+                [uwsgi] 
+                base = /var/www/html/allyshop
+                app = run 
+                module = %(app)
+
+                home = %(base)/venv
+                pythonpath = %(base)
+
+                socket = %(base)/socket.sock
+
+                chmod-socket = 777
+
+                processes = 8
+
+                threads = 8
+
+                harakiri = 15
+
+                callable = app
+
+                logto = /var/www/html/allyshop/log/%n.log
+        --ESC
+        --:wq
+        --sudo systemctl start uwsgi_allyshop_rest
+        --vi log/uwsgi.log
+        --:q
+        --vi log/uwsgi.log
+        --:q       
+        --sudo rm /etc/nginx/sites-enabled/default
+        --sudo systemctl reload nginx
+        --sudo systemctl restart nginx
+        --sudo systemctl start uwsgi_allyshop_rest
+
+Test nginx conf
+    sudo nginx -c /etc/nginx/nginx.conf -t
+
+Adding public key
+    --ssh-keygen
+    --cat ~/.ssh/id_rsa.pub
+    --cd ~/.ssh/id_rsa.pub
+
+
+
+[uwsgi]
+base = '/home/videoengine'
+module = app
+chdir = /home/videoengine
+home = /home/videoengine/miniconda3/envs/venv
+pythonpath = %(base)
+
+socket = 0.0.0.0:8000
+
+chmod-socket = 777
+
+callable = app
+
+logto = /home/videoengine/log/%n.log
+
+http://104.248.167.144/
+
+
+=====================================================================================================
+
+
+sudo systemctl stop nginx && sudo systemctl stop videoengine
+> log/uwsgi.log
+vi log/uwsgi.log
+sudo systemctl start nginx && sudo systemctl start videoengine && sudo systemctl enable videoengine && sudo systemctl status videoengine
+
+
+cd /var/www/html/videoengine
+source /var/www/html/videoengine/venv/bin/activate
+conda activate venv
+
+sudo nano /var/www/html/videoengine/Functions/article_video_v1_funcs.py 
+
+
+sudo nginx -c /etc/nginx/nginx.conf -t
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl start nginx
+sudo systemctl status nginx
+sudo systemctl start videoengine
+sudo systemctl enable videoengine
+sudo systemctl status videoengine
+
+    sudo tail -f /var/log/nginx/error.log
+    sudo tail -f /var/log/nginx/access.log
+    sudo tail -f log/uwsgi.log
+    sudo tail -f log/emperor.log
+
+vi log/uwsgi.log
+vi log/emperor.log
+vi var/log/nginx/access.log
+vi var/log/nginx/error.log
+
+
+
+sudo journalctl -u nginx
+sudo journalctl -u videoengine
+
+
+ssh-copy-id user@104.248.57.233
+ssh videoengine@104.248.57.233
+sudo cat ~/.ssh/id_rsa.pub | ssh root@104.248.57.233 'cat - >> ~/.ssh/authorized_keys'
+
+
+information link: https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04
+
+
+
+
+sudo fallocate -l 8G /swapfile
+ls -lh /swapfile
+sudo chmod 600 /swapfile
+ls -lh /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo swapon --show
+free -h
+free -h
+df -h
+sudo cp /etc/fstab /etc/fstab.bak
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+cat /proc/sys/vm/swappiness
+
+
+
+echo $PATH 
+ls | grep ffmpeg
+cd /usr/bin
+man ffmpeg
+./ffmpeg
+which ffmpeg
+sudo nano ~/.profile
+sudo nano ~/.bashrc
+
+
+cp -p /usr/bin/ffmpeg  /var/www/html/videoengine/venv/bin/
+cp -p /usr/bin/ffplay  /var/www/html/videoengine/venv/bin/
+cp -p /usr/bin/ffprobe  /var/www/html/videoengine/venv/bin/
+
+
+cp -p /usr/share/lintian/overrides/ffmpeg  /var/www/html/videoengine/venv/share/lintian/overrides/
+cp -p /usr/share/ffmpeg/*  /var/www/html/videoengine/venv/share/ffmpeg
+cp -p /var/www/html/videoengine/socket.sock  /home/videoengine/
+
+TO MOVE SUB FOLDERS Use
+=========================
+cp -R /usr/share/ffmpeg/*  /var/www/html/videoengine/venv/share/ffmpeg
+
+sudo ln -s /usr/bin/ffmpeg /var/www/html/videoengine/venv/bin/
+sudo ln -s /usr/bin/ffplay /var/www/html/videoengine/venv/bin/
+sudo ln -s /usr/bin/ffprobe /var/www/html/videoengine/venv/bin/
+sudo ln -s /home/videoengine/miniconda3/bin/conda /var/www/html/videoengine/venv/bin/
+
+
+TO GIVE A FOLDER WRITE PERMISSION BY CHANGING OWNER TO A PARTICULAR USER LIKE ROOT/videoengine
+==================================
+sudo chown 777 ROOT "/home/videoengine/Content/Template 1/Square/Video Engine Output/Article Videos"
+
+
+sudo find / -type f -name "ffmpeg"
+
+sudo chown -R videoengine:videoengine "/var/www/html/videoengine/Video Engine Output"
+sudo chmod -R 777 "/var/www/html/videoengine/Video Engine Output"
+
+sudo chown -R videoengine:videoengine "/var/www/html/videoengine/Video Engine Output/Article Videos"
+sudo chmod -R 777 "/var/www/html/videoengine/Video Engine Output/Article Videos"
+
+sudo chmod 777 /home/videoengine
+sudo chown videoengine:videoengine /home/videoengine
+
+
+[Errno 32] Broken pipe MoviePy error: FFMPEG encountered the following error while writing file, Permission denied
+make sure you are using a recent version of FFMPEG (the versions in the Ubuntu/Debian repos are deprecated).
+
+
+
+
+BASE_DIR = '/home/videoengine'
+sudo netstat -nlp | grep 8000
+ls -alh
+
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+
+db.updateUser("twitterarticle", { roles : [ { role : 'dbAdmin', db : 'news' } ] })
+
+
+db.createUser(
+    {
+        user : "twitterarticle",
+        pwd : 'demzanalytics',
+        createRole: "dbAdmin"
+        privileges: [{resource: {db: "news", collection: ""}, actions: [ “find”, ”insert”, ”update”, "createIndex", "createCollection"]}], 
+        roles: [{ role: "dbAdmin", db: "news" }], 
+        writeConcern: { w: "majority", j: false, wtimeout: 300 }
+    }
+)
+
+db.updateUser(
+    "twitterarticle", 
+    {
+        privileges: [
+            {
+                resource: {db: "news", collection: ""}, 
+                actions: [ “find”, ”insert”, ”update”, "createIndex", "createCollection"]
+            }
+        ], 
+        roles: [
+            {
+                role: "dbAdmin", 
+                db: "news" 
+            }
+        ], 
+        writeConcern: 
+        { 
+            w: "majority", 
+            j: false, 
+            wtimeout: 300 
+        }
+    },
+)
+
+SETTING UP MONGODB ON THE SERVER 
+===================================
+resource:
+    https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04
+    https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04
+    https://medium.com/ninjaconcept/how-to-quickly-setup-mongodb-on-digitalocean-3d9791a7aaa4
+
+sudo systemctl unmask mongodb
+
+
+TO SET TIME:
+    sudo dpkg-reconfigure tzdata
+
+nano .profile
+alias python="python3"
+alias pip="pip3"
+source .profile
+
+
+client_ = MongoClient("mongodb://twitterarticle:demzanalytics@178.62.87.138:27017/")
+db = client_.news
+twitterarticle_collection = db.twitterarticle
+twitterarticle_collection.insert_many(df.to_dict('records'))
+
+mongo --port 27017 -u twitterarticle -p demzanalytics --authenticationDatabase 'news'
+mongo -u twitterarticle -p demzanalytics --authenticationDatabase admin
+
+sudo ufw allow from 178.62.87.138 to any port 27017
+
+mongo -u twitterarticle -p demzanalytics --authenticationDatabase admin --host 178.62.87.138
+
+ssh -L 127.0.0.1:178.62.87.138:27017 twitterarticle@<bastion_hostname> -fN
+
+show users
+"mongodb://twitterarticle:demzanalytics@178.62.87.138:27017/"
+"mongodb://twitterarticle:demzanalytics@178.62.87.138:27017/news"
+"mongodb://178.62.87.138:27017/"
+
+sudo ufw allow from 178.62.87.138/32 to any port 27017 
+
+"mongodb://twitterarticle:demzanalytics@localhost"
+
+db.updateUser("twitterarticle", { roles : [ { role : 'dbAdmin', db : 'news' } ] })
+
+db.auth('twitterarticle','demzanalytics')
+
+db.twitterarticle.insert(
+    {
+        'Country': 'Australia', 'Country Index': 12.08, 'Date': '2020-05-16', 'Final Score': 1812, 
+        'Headline': 'Several Australian ...ups.\xa0…', 'Headline URL': 'https://www.sbs.com...-backlash', 
+        'Hour': 6, 'Score': 509, 'Score Index': 3.56, 'Tag': 'World', 'associated_tweet': 1261536000573968384, 
+        'author': 'SBSNews', 'author_id': 8197942, 'favorite_count': 146, 'hashtags':'[]', 'id':1261536000573968384, 
+        'links':['https://t.co/Saq6yKAA1U', 'https://t.co/Saq6yKAA1U', 'https://t.co/Saq6yKAA1U', 'https://t.co/Saq6yKAA1U'], 
+        'mentions':'[]', 're_tweeter':10, 'reply_count':10, 'retweet_count':125, 
+        'text':'Several Australian universities have removed job listings for the Hong Kong Police Force after facing backlash from local pro-democracy advocacy groups.https://www.sbs.com.au/news/australian-universities-remove-job-listings-for-hong-kong-police-force-after-backlash', 
+        'time':1589608595000, 'type':'tweet'
+    }
+)
+
+
+
+CREATING A CRON JOB ON THE SERVER
+====================================
+resources:
+    https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-ubuntu-1804
+    https://towardsdatascience.com/lessons-learned-digital-ocean-for-python-3-e2442db4246f
+    https://medium.com/@cprkrn/running-automated-python-scripts-in-the-cloud-with-cronjobs-47476b33f817
+    https://www.digitalocean.com/community/tutorials/how-to-schedule-routine-tasks-with-cron-and-anacron-on-a-vps
+    https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-on-a-vps
+
+SHELL=/bin/bash
+HOME=/home/twitterarticle/
+MAILTO=”rhotimie3421@gmail.com”
+30 17 * * * /home/twitterarticle/venv/bin/python3 /home/twitterarticle/run.py >> /home/twitterarticle/log/cron.log
+30 7,11,17 * * * /home/twitterarticle/venv/bin/python3 /home/twitterarticle/run.py >> /home/twitterarticle/log/cron.log
+30 7,11,17 * * * echo ‘Run this command at 7:30, 11:30, 5:30 hours’ >>  /home/twitterarticle/log/cron.log
+
+
+
+
+
+
+                     USING CELERY
+=========================================================
+pip install celery==3.1.24
+
+
+Celery
+RabbitMQ/Reddis(Message queue)
+
+sudo apt-get install rabbitmq-server
+sudo service rabbitmq-server start
+sudo service rabbitmq-server restart
+sudo rabbitmqctl status
+celery -A app.celery worker --loglevel=INFO
+celery restart -A app.celery worker --loglevel=INFO
+
+How to stop a celery process
+=============================
+--ps aux|grep 'celery worker'
+    result format: username process_id etc.
+--sudo kill -9 process_id
+                OR 
+--ps auxww | grep 'celery worker' | awk '{print $2}' | xargs kill -9
+
+--name this python file tasks.py
+==========================================
+from celery import Celery 
+from time import sleep
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

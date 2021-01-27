@@ -1,1 +1,3 @@
 https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-console
+go to the project settings and click on service account then create account key
+https://console.cloud.google.com/iam-admin/serviceaccounts?authuser=1&project=hybrid-bastion-286012&supportedpurview=project

@@ -1,1 +1,3 @@
  ssh nathphoenix@157.245.243.176 -i nath_tb
+
+ ssh -i phoenix_tb medium@167.99.194.52

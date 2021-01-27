@@ -31,3 +31,22 @@ DELETE ALL FILES WITH A PARTICULAR EXTENSION
 
 find . -type f -iname \*.jpg -delete
 find . -type f -iname \*.txt -delete
+
+HOW TO CREATE A FILE
+cat > file.txt
+
+how to make a file executable
+ chmod -R 777 ~/Project/video_engine.csv
+
+chmod u=rx file        (Give the owner rx permissions, not w)
+chmod go-rwx file      (Deny rwx permission for group, others)
+chmod g+w file         (Give write permission to the group)
+chmod a+x file1 file2  (Give execute permission to everybody)
+chmod g+rx,o+x file    (OK to combine like this with a comma)
+
+chmod g+w blog.txt
+
+
+#!/bin/bash
+source /home/nathphoenix/Project/venv/bin/activate
+python3 /home/nathphoenix/Project/video-rss.py  >> /home/nathphoenix/Project/cron.log 2>&1

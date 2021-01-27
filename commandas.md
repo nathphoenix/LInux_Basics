@@ -27,7 +27,8 @@ Next we send a public key to our cloud server on that bash terminal:
 ssh-copy-id nathphoenix@161.35.97.66 using gitbash only (This doesn't seem to work again)
 OR
 cd into .ssh, then
-ssh-copy-id -i nath_tb nathphoenix@157.245.243.176
+ssh-copy-id -i phoenix_tb nathphoenix@157.245.243.176
+ssh-copy-id -i Nathaniel nathphoenix@157.245.243.176
  
 
 
@@ -95,14 +96,28 @@ scp -i nath_tb -r rss_scraper nathphoenix@157.245.243.176:~/Project
 
 how to download folder from remote to local
 scp -i nathan -r nathphoenix@161.35.97.66:~/Project/wavenet_vocoder .
-scp -i nathan -r nathphoenix@157.245.84.132:~/Project/check .
+scp -i phoenix_tb -r  videoengine@206.189.29.53:~/home/videoengine .
+
+How to download all files from remote to local
+if the project is not in any directory, use this
+scp -i phoenix_tb -r  videoengine@206.189.29.53: .
 
 how to transfer a single file from local to remote
 scp -i bloverse-gcp news.pdf otseobande@34.73.28.53:~/Project
-scp -i nath_tb -r phoenix.json nathphoenix@157.245.243.176:~/Project
+scp -i phoenix_tb -r rss_updated.py nathphoenix@157.245.243.176:~/Project
+scp -i phoenix_tb -r blogger2.py medium@167.99.194.52:~/medium
+
+for selecting multiple single file
+ scp -i phoenix_tb -r algo_category.csv category_funcs.py nathphoenix@157.245.243.176:~/Project
+
 
 how to download a single file from remote to local
 scp -i nathan nathphoenix@157.245.84.132:~/Project/tacotron_model.ckpt-22500.meta .
+
+when it is not in a folder
+scp -i phoenix_tb medium@167.99.194.52:uwsgi.log .
+
+
 
 how to extact tar.gz file
 tar -xvzf ukulele_songs.tar.gz -C ~/Documents/Songs/
