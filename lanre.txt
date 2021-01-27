@@ -516,7 +516,7 @@ alias pip="pip3"
 source .profile
 
 
-client_ = MongoClient("mongodb://twitterarticle:demzanalytics@178.62.87.138:27017/")
+
 db = client_.news
 twitterarticle_collection = db.twitterarticle
 twitterarticle_collection.insert_many(df.to_dict('records'))
