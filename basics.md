@@ -50,3 +50,11 @@ chmod g+w blog.txt
 #!/bin/bash
 source /home/nathphoenix/Project/venv/bin/activate
 python3 /home/nathphoenix/Project/video-rss.py  >> /home/nathphoenix/Project/cron.log 2>&1
+
+
+another method to create a file
+touch docker-compose.yml
+
+
+HOW TO CREATE VIRTUALENV ON WINDOWS
+virtualenv Cryptovenv --python=python

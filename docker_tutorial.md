@@ -1,3 +1,5 @@
+https://medium.com/@habibridho/docker-as-deployment-tools-5a6de294a5ff
+
 docker container run --publish 80:80 nginx
 this download image nginx from docker hub, started a new container from that image and open port 80 on the host ip to run
 
@@ -60,3 +62,15 @@ once inside, we can then use apk to install the bash command line
 
 to get the port of a running container, we run :
 docker container port webhost
+
+
+HOW TO PUSH YOUR IMAGE TO DOCKER HUB
+docker commit d82ba8234ad2 nathphoenix/flask_standard_movie_app
+d82ba8234ad2 = id of the docker container
+flask_standard_movie_app = the name of the container
+
+
+
+
+
+

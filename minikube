@@ -1,0 +1,1 @@
+minikube start --hyperv-use-external-switch
