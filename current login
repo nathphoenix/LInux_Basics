@@ -1,3 +1,5 @@
  ssh nathphoenix@157.245.243.176 -i nath_tb
 
  ssh -i phoenix_tb medium@167.99.194.52
+
+ ssh -i "nathawspb.pem" ubuntu@ec2-13-58-101-54.us-east-2.compute.amazonaws.com

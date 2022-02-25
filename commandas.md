@@ -51,7 +51,13 @@ sudo shutdown -r now
 as a defined user, you upgrade your packages using the root permission
 sudo apt upgrade
 
+for digital ocean
 scp -i nathan -r image_scraper nathphoenix@167.172.141.50:~/Project
+
+for aws
+scp -i "nathawspb.pem" -r flask-standard ubuntu@ec2-13-58-101-54.us-east-2.compute.amazonaws.com:~/ubuntu/
+
+scp -i "nathawspb.pem" -r flask-standard ubuntu@ec2-3-136-86-96.us-east-2.compute.amazonaws.com:~/ubuntu/
 
 
 We can continue withis step below

@@ -54,6 +54,8 @@ docker container exec
 
 docker container exec -it mysql bash
 
+docker container stats
+
 docker container run -it alpine bash
 this will throw an error as alpine is just 5mb in size, so the only command available insisde is 'sh'
 we run this:
@@ -63,11 +65,63 @@ once inside, we can then use apk to install the bash command line
 to get the port of a running container, we run :
 docker container port webhost
 
+HOW TO VIEW NGINX LOG
+for example, container-name = nginx-standard
+sudo docker logs -f container-name 1>/dev/null
+
+HOW TO VIEW NGINX ACCESS LOG 
+sudo docker logs -f nginx-standard 2>/dev/null
+
 
 HOW TO PUSH YOUR IMAGE TO DOCKER HUB
 docker commit d82ba8234ad2 nathphoenix/flask_standard_movie_app
 d82ba8234ad2 = id of the docker container
 flask_standard_movie_app = the name of the container
+
+HOW TO DELETE OR REMOVE A CONTAINER
+Docker rm
+docker rm removes containers by their name or ID.
+
+When you have Docker containers running, you first need to stop them before deleting them.
+
+Stop all running containers: docker stop $(docker ps -a -q)
+Delete all stopped containers: docker rm $(docker ps -a -q)
+
+AFTER STARTING MINIKUBE DO THIS
+
+1. minikube -p minikube docker-env
+
+2. point our terminal to docker environment : eval $(minikube -p minikube docker-env)
+
+Once you're done building you can unset docker env i.e. disconnect your minikube env by unsetting these docker configs if you run 
+
+minikube docker-env --unset
+
+
+PROBLEMS
+one thing to remember regarding 'minikube' is that minikube's host is not the same as your local host, therefore, 
+what i realized, that in order to use local images for testing with minikube you must build your docker image first 
+locally or pull it locally and then add it using the command bellow into the minikube context which is, nothing else as another linux instance.
+
+minikube image rm image <image>:<tag>
+minikube load image <image>:<tag> --daemon
+
+
+TO GET THE DETAILS OF A KUBERNETES SERVICE
+kubectl describe service hello-python-service
+
+HOW TO RUNA DOCKER FILE WITHOUT DOCKER COMPOSE
+docker build -t <image_name> .
+
+
+STARTING YOUR KUBERNETES APP
+1. kubectl
+2. minikube start
+3. minikube -p minikube docker-env
+4. minikube -p minikube docker-env | Invoke-Expression
+5. after configuring yaml file, do this to run the app :  kubectl apply -f deployment.yaml
+6. then start the service with :  minikube service flask-standard-service
+
 
 
 

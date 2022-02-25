@@ -249,6 +249,8 @@ https://medium.com/codebase/how-to-keep-multiple-linux-terminals-running-in-back
 how to transfer folder from local to remote server
 scp -i bloverse-gcp -r tacotron otseobande@34.73.28.53:~/Project
 
+scp -i "nathawspb.pem" -r flask-standard ubuntu@ec2-13-58-101-54.us-east-2.compute.amazonaws.com:~/ubuntu/
+
 how to transfer from remote to local
 scp -i nathan -r nathphoenix@161.35.97.66:~/Project/wavenet_vocoder .
 
