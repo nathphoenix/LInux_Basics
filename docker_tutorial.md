@@ -87,6 +87,9 @@ When you have Docker containers running, you first need to stop them before dele
 Stop all running containers: docker stop $(docker ps -a -q)
 Delete all stopped containers: docker rm $(docker ps -a -q)
 
+REMOVE ALL DIRECTORIES IMAGES ON DOCKER
+docker system prune -a
+
 AFTER STARTING MINIKUBE DO THIS
 
 1. minikube -p minikube docker-env
