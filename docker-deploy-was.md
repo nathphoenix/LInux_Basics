@@ -46,7 +46,7 @@ sudo docker-compose build
 to run docker in background
 sudo docker-compose up -d
 
-Then add your expose docker container to the policy group,
+Then add your expose docker container to the security group,
 the 9900 is my docker container while 8080 is for nginx
 check the ec2-docker.jpg in the images folder
 
