@@ -40,6 +40,7 @@ docker -v
 then copy your project to the server
 scp -i "nathawspb.pem" -r flask-standard ubuntu@ec2-13-58-101-54.us-east-2.compute.amazonaws.com:~/ubuntu/
 
+
 then build your app
 sudo docker-compose build
 

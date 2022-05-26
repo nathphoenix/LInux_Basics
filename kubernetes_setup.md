@@ -7,7 +7,7 @@ STARTING YOUR KUBERNETES APP
 4. minikube -p minikube docker-env | Invoke-Expression
 5. after configuring yaml file, do this to run the app :  kubectl apply -f deployment.yaml
 6. then start the service with :  minikube service flask-standard-service
-
+7. check the dashboard : minikube dashboard
 
 AFTER STARTING MINIKUBE DO THIS
 

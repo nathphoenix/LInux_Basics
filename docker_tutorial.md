@@ -116,6 +116,15 @@ kubectl describe service hello-python-service
 HOW TO RUNA DOCKER FILE WITHOUT DOCKER COMPOSE
 docker build -t <image_name> .
 
+HOW TO VIEW ALL RUNNING IMAGES
+docker images ls
+
+HOW TO VIEW ALL IMAGES EITHER RUNNING OR NOT
+docker images
+
+
+
+
 
 STARTING YOUR KUBERNETES APP
 1. kubectl
@@ -124,10 +133,3 @@ STARTING YOUR KUBERNETES APP
 4. minikube -p minikube docker-env | Invoke-Expression
 5. after configuring yaml file, do this to run the app :  kubectl apply -f deployment.yaml
 6. then start the service with :  minikube service flask-standard-service
-
-
-
-
-
-
-

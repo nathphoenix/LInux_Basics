@@ -1,3 +1,10 @@
+For software installation issue on ubuntu
+sudo gnome-software
+https://askubuntu.com/questions/1029382/i-do-not-have-permission-to-install-new-software
+
+expand ubuntu view from small to big
+sudo apt install build-essential dkms linux-headers-$(uname -r)
+
 sudo apt update
 sudo apt-get upgrade
 
@@ -12,6 +19,8 @@ sudo apt-get install python-pip python-dev libpq-dev
 
 sudo apt install virtualenv
 virtualenv venv --python=python3
+OR
+virtualenv venv --python=python      For python2
 
 source venv/bin/activate
 
@@ -28,7 +37,6 @@ pip uninstall tensorflow==1.0.0
 sudo apt-get pkg-config
 
 
-expand ubuntu view from small to big
-sudo apt install build-essential dkms linux-headers-$(uname -r)
+
 
 pip freeze > requirements.txt
