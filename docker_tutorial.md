@@ -114,6 +114,7 @@ TO GET THE DETAILS OF A KUBERNETES SERVICE
 kubectl describe service hello-python-service
 
 HOW TO RUNA DOCKER FILE WITHOUT DOCKER COMPOSE
+image_name can be any name since we are not using a docker-compose
 docker build -t <image_name> .
 
 HOW TO VIEW ALL RUNNING IMAGES

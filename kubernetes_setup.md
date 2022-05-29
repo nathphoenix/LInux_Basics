@@ -1,13 +1,50 @@
 SUMMARY IN STEPS
 
 STARTING YOUR KUBERNETES APP
+
 1. kubectl
 2. minikube start
 3. minikube -p minikube docker-env
 4. minikube -p minikube docker-env | Invoke-Expression
-5. after configuring yaml file, do this to run the app :  kubectl apply -f deployment.yaml
-6. then start the service with :  minikube service flask-standard-service
-7. check the dashboard : minikube dashboard
+5. Enable addons :  minikube addons enable metallb # This step can be ignore at first unless there is an issue with endpoint availability
+6. after configuring yaml file, do this to run the app :  kubectl apply -f deployment.yaml
+7. Load local image minikube image load ContainerName(from the deployment.yaml) i.e minikube image load flask-standard_movie_app or  minikube cache add flask-standard_movie_app:latest
+8. Verify that there are pods running using : kubectl get pods
+9. then start the service with :  minikube service flask-standard-service or minikube service flask-standard-service --url
+Then on another terminal,
+minikube tunnel
+10. check the dashboard : minikube dashboard
+
+11. access your app on http://localhost:9900 or http://127.0.0.1:9900/
+
+View the pod and services
+kubectl get pod,svc -n kube-system
+
+get details of pod
+kubectl get pod -o wide
+
+get deployments details
+kubectl get deployment flask-standard -o yaml
+
+download deployment details
+kubectl get deployment flask-standard -o yaml > deployment_result.yaml
+
+Get the endpoint
+kubectl get endpoints flask-standard-service
+
+Cleanup the deployment and service using the following command
+kubectl delete -f deployment.yaml
+
+Stop services
+
+minikube stop
+minikube delete --all --purge
+
+Execute minikube
+minikube ssh
+
+port forwarding
+kubectl port-forward service/flask-standard-service 9800:9900
 
 AFTER STARTING MINIKUBE DO THIS
 
