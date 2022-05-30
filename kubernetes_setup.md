@@ -2,6 +2,8 @@ SUMMARY IN STEPS
 
 STARTING YOUR KUBERNETES APP
 
+0. Use powershell admin mode!! not tested with regular powershell
+0a. Build your docker image if not available with "docker-compose build" or "docker build -t flask-kubernetes ." if docker-compose.yml file is not use or available.
 1. kubectl
 2. minikube start
 3. minikube -p minikube docker-env
