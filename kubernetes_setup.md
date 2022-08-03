@@ -6,7 +6,7 @@ STARTING YOUR KUBERNETES APP
 0a. Build your docker image if not available with "docker-compose build" or "docker build -t flask-kubernetes ." if docker-compose.yml file is not use or available.
 1. kubectl
 2. minikube start
-3. minikube -p minikube docker-env
+3. minikube -p minikube docker-env    #to access docker vm, this command reconfigure our docker cli temporarily for the actual terminal
 4. minikube -p minikube docker-env | Invoke-Expression
 5. Enable addons :  minikube addons enable metallb # This step can be ignore at first unless there is an issue with endpoint availability
 6. after configuring yaml file, do this to run the app :  kubectl apply -f deployment.yaml
@@ -22,11 +22,22 @@ minikube tunnel
 View the pod and services
 kubectl get pod,svc -n kube-system
 
+View the logs of a docker container
+docker logs container_id
+
+kubectl logs pod_name
+
+How to execute and access a pod
+kubectl exec -it pod_name sh
+
 get details of pod
 kubectl get pod -o wide
 
 get deployments details
 kubectl get deployment flask-standard -o yaml
+
+To get the ip address to access our app externally
+minikube ip
 
 download deployment details
 kubectl get deployment flask-standard -o yaml > deployment_result.yaml
