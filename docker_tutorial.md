@@ -30,6 +30,11 @@ docker container rm 734
 to force remove a running container
 docker container rm -f 734
 
+HOW TO EXECUTE A RUNNING CONTAINER IN DOCKER
+docker exec -it <docker image name or docker image id> bash
+docker exec -it airflow-docker_airflow-webserver_1 bash
+
+
 Example on running mysql database server on docker:
 docker container run -d -p 3306:3306 --name db -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
 docker container run -d --name webserver -p 8080:80 httpd
