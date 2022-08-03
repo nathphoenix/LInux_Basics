@@ -1,2 +1,5 @@
 docker and not this
 minikube start --hyperv-use-external-switch
+
+
+https://minikube.sigs.k8s.io/docs/start/

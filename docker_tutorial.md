@@ -32,8 +32,16 @@ docker container rm -f 734
 
 HOW TO EXECUTE A RUNNING CONTAINER IN DOCKER
 docker exec -it <docker image name or docker image id> bash
+<<<<<<< HEAD
 docker exec -it airflow-docker_airflow-webserver_1 bash
 
+=======
+docker exec -it airflow-docker_airflow-webserver_1 bash 
+
+OR
+
+docker exec -it airflow-docker_airflow-webserver_1 sh
+>>>>>>> 05a360207a19c9bd01f126793fd0225d8f1974ac
 
 Example on running mysql database server on docker:
 docker container run -d -p 3306:3306 --name db -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
