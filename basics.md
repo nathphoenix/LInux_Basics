@@ -36,7 +36,7 @@ HOW TO CREATE A FILE
 cat > file.txt
 
 how to make a file executable
- chmod -R 777 ~/Project/video_engine.csv
+chmod -R 777 ~/Project/video_engine.csv
 
 chmod u=rx file        (Give the owner rx permissions, not w)
 chmod go-rwx file      (Deny rwx permission for group, others)

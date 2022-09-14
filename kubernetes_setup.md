@@ -10,12 +10,14 @@ STARTING YOUR KUBERNETES APP
 4. minikube -p minikube docker-env | Invoke-Expression
 5. Enable addons :  minikube addons enable metallb # This step can be ignore at first unless there is an issue with endpoint availability
 6. after configuring yaml file, do this to run the app :  kubectl apply -f deployment.yaml
+    Apply changes to multiple configuration file:
+    kubectl apply -f k8s  : meaning k8s folder is in my project directory and contains multiple .yaml files
 7. Load local image minikube image load ContainerName(from the deployment.yaml) i.e minikube image load flask-standard_movie_app or  minikube cache add flask-standard_movie_app:latest
 8. Verify that there are pods running using : kubectl get pods
 9. then start the service with :  minikube service flask-standard-service or minikube service flask-standard-service --url
 Then on another terminal,
 minikube tunnel
-10. check the dashboard : minikube dashboard
+10. check the dashboard : minikube dashboard or minikube dashboard --url (in case of not opening up)
 
 11. access your app on http://localhost:9900 or http://127.0.0.1:9900/
 
@@ -25,13 +27,18 @@ kubectl get pod,svc -n kube-system
 View the logs of a docker container
 docker logs container_id
 
+Checking the status of our app if it works fine
 kubectl logs pod_name
+kubectl logs flask-standard-5fdcc856c4-9hj6h
 
 How to execute and access a pod
 kubectl exec -it pod_name sh
 
 get details of pod
 kubectl get pod -o wide
+
+get all persistent volume
+kubectl get pv
 
 get deployments details
 kubectl get deployment flask-standard -o yaml
