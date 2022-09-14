@@ -29,7 +29,7 @@ Make sure to download the csv generated in case you forget secret access key
 
 Then we head to travis website and store our generated credentials, you can check the images folder here called EBS-AWS
 
-After storing the credentials we then add the variable name to a travis file
+After storing the credentials we then add the variable name to our travis file
 
 Then we commit and push all changes to the repo.
 
