@@ -51,6 +51,12 @@ Then add your expose docker container to the security group,
 the 9900 is my docker container while 8080 is for nginx
 check the ec2-docker.jpg in the images folder
 
+AFTER COMPLETING PROJECT DEPLOYMENT
+We then create an elastic ip_address from aws, 
+after that, we click action and select associate option from the dropdown
+then we link the elastic static address to the ec2 instance by selecting our running instance
+The importance of elastic ip address is to make our application ip address constand i.e not changing, because the default ip address from ec2 instance is always changing anytime we restart the server
+
 
 check all network details
 sudo netstat -tulpn
