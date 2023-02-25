@@ -1,0 +1,13 @@
+1. After logging in to your azure accounts.
+Create your account service
+create your container registry
+create your kubernetes cluster service
+on the kubernetes page, cloick on 'Get started' and then click on 'Configure continuous deployment'
+
+
+
+AZURE SSH logging
+https://learn.microsoft.com/en-us/azure/virtual-machines/linux/ssh-from-windows
+ssh -i ~/.ssh/id_rsa azureuser@10.111.12.123
+
+ssh -i "osticket_key.pem" azureuser@20.234.191.29
