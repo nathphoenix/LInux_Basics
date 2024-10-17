@@ -136,6 +136,8 @@ docker images ls
 HOW TO VIEW ALL IMAGES EITHER RUNNING OR NOT
 docker images
 
+HOW TO DELETE ALL VOLUMES CONTAINING DATABASE DATA
+docker-compose down --volumes --rmi all
 
 
 
