@@ -48,6 +48,7 @@ sudo apt-get update
 sudo apt-get -y install cuda
 
 see how to download cuDNN here for linux
+CUDDN archive https://developer.nvidia.com/rdp/cudnn-archive
 https://stackoverflow.com/questions/76139931/azure-vm-loaded-runtime-cudnn-library-8-2-4-but-source-was-compiled-with-8-6-0
 
 https://developer.nvidia.com/rdp/cudnn-archive
