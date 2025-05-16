@@ -96,6 +96,26 @@ virtualenv flask --python=python3
 
 RUNNING YOUR CODE IN BACKGROUND OR TRAINING
 https://medium.com/codebase/how-to-keep-multiple-linux-terminals-running-in-background-screen-ccf2e53b0d22
+yum install screen
+Initiate a Screen
+
+screen -S <screen name> <command to execute>
+Detach from the screen
+
+CTRL + A, D
+List all the screen currently working
+
+screen -ls
+Reattach to a screen
+
+screen -r <screen name>
+Kill specific screen
+
+screen -X -S <screen name> quit
+
+Kill all screens
+
+pkill screen
 
 how to transfer folder from local to remote server
 scp -i nath_tb -r rss_scraper nathphoenix@157.245.243.176:~/Project

@@ -93,3 +93,11 @@ pip install torch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 --index-url https
 pip install tensorflow==2.12.0
 
 python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+
+scp -i "sparkleMLKey.pem" -r imagenet-server sparkle_user@20.13.0.250:~/Project
+
+ssh -i "sparkleMLKey.pem" sparkle_user@20.13.0.250
+
+
+download image_net.h5 from the directory
+scp -i "sparkleMLKey.pem" sparkle-user@20.13.0.250:~/Project/imagenet-server/image_net.h5 .
